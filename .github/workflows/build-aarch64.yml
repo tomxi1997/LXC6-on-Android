@@ -225,7 +225,7 @@ jobs:
           cd lxc
           patch -p0 -R < ndk.patch
           sed -i "s/cpuset.cpus/cpus/g" ./src/lxc/cgroups/cgfsng.c
-          meson setup build -Dprefix=/data/lxc \
+          meson setup build -Dprefix=/data/lxc6 \
                             -Dinit-script=sysvinit \
                             -Druntime-path=/data/local/tmp \
                             -Dstrip=true \
@@ -235,15 +235,15 @@ jobs:
                             -Dselinux=false \
                             -Dapparmor=false \
                             -Dopenssl=false \
-                            -Dlog-path=/data/lxc/var/log/lxc \
-                            -Ddata-path=/data/lxc/lib/lxc \
-                            --localstatedir=/data/lxc/var \
+                            -Dlog-path=/data/lxc6/var/log/lxc \
+                            -Ddata-path=/data/lxc6/lib/lxc \
+                            --localstatedir=/data/lxc6/var \
                             --buildtype release \
                             --cross-file ../aarch64-NDK-API26 \
                             --wipe
           meson compile -C build
           sudo ninja -C build install
-          sudo bash -c "cd /data/lxc && tar -zcvf $work_dir/$latest_version-ndk-api26-release.tar.gz ."
+          sudo bash -c "cd /data/lxc6 && tar -zcvf $work_dir/$latest_version-ndk-api26-release.tar.gz ."
 
       - name: Upload GNU release file
         uses: actions/upload-artifact@v3
